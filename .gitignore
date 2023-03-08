@@ -1,0 +1,9 @@
+.vscode/
+old/
+
+zig-cache/
+zig-out/
+
+*.dll
+*.exp
+extra.h
