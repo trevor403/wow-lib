@@ -5,7 +5,7 @@ pub fn build(b: *std.build.Builder) !void {
     const target = std.zig.CrossTarget{
         .cpu_arch = .x86,
         .cpu_model = .{
-            .explicit = &std.Target.x86.cpu.i686,
+            .explicit = &std.Target.x86.cpu.haswell, // i686, generic, pentium4, haswell
         },
         .os_tag = .windows,
         .abi = .gnu,
@@ -17,9 +17,6 @@ pub fn build(b: *std.build.Builder) !void {
         .optimize = .ReleaseFast,
     });
 
-    // exe.emit_h = true;
-    // exe.emit_h
-
     const cflags = &[_][]const u8{
         "-std=c2x",
         "-Wall",
@@ -29,9 +26,11 @@ pub fn build(b: *std.build.Builder) !void {
     const cxxflags = &[_][]const u8{
         "-std=gnu++2b",
         "-Wall",
-        "-D_NATIVE_WCHAR_T_DEFINED=OFF",
         "-g",
     };
+
+    exe.addIncludePath("lib");
+    exe.addObjectFile("lib/libwow.a");
 
     exe.addIncludePath("deps/minhook/include");
     exe.addCSourceFile("deps/minhook/src/buffer.c", cflags);

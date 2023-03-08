@@ -13,10 +13,18 @@ typedef void* LPUNKNOWN;
 // from Zig
 #include "zig.h"
 
+// from Go
+#include "go.h"
+
+static void go_setup() {
+    go_hello();
+}
+
 static bool process_attach() {
     setlocale(LC_ALL, "en_US.utf8");
 
-    // zig_start_routine(setup_dx_hook);
+    go_init();
+    zig_start_routine(go_setup); // new stack
 
     if (!setup_hooks()) return FALSE;
     return TRUE;

@@ -4,6 +4,7 @@
 
 namespace fs = std::filesystem;
 
+#include "hooks.h"
 #include "patch.h"
 
 #include "zig.h"
@@ -11,6 +12,12 @@ namespace fs = std::filesystem;
 
 #define constptr(x) (__builtin_constant_p((void*)x) ? ((void*)x) : ((void*)x))
 #define MAKE_HOOK(x) {#x, FP_##x, (void*)&Patch_##x, (void**)&Orig_##x}
+
+// win_input_associate
+constexpr void* FP_win_input_associate = constptr(0x86d0a0);
+typedef void (*T_win_input_associate)(void);
+T_win_input_associate Orig_win_input_associate;
+void Patch_win_input_associate(void);
 
 // lua_EULAAccepted
 constexpr void* FP_lua_EULAAccepted = constptr(0x4dd740);
@@ -45,16 +52,20 @@ int32_t Patch_SFile__Read(SFile* file, void* buffer, size_t bytestoread, size_t*
 // Hooks
 HOOK_ARRAY HookArray[] =
 {
+    MAKE_HOOK(win_input_associate),
     MAKE_HOOK(lua_EULAAccepted),
-    // MAKE_HOOK(SFile__OpenEx),
-    // MAKE_HOOK(SFile__Close),
-    // MAKE_HOOK(SFile__GetFileSize),
-    // MAKE_HOOK(SFile__Read),
+    MAKE_HOOK(SFile__OpenEx),
+    MAKE_HOOK(SFile__Close),
+    MAKE_HOOK(SFile__GetFileSize),
+    MAKE_HOOK(SFile__Read),
 };
 
 int HookEntries = sizeof(HookArray) / sizeof(HOOK_ARRAY);
 
-extern "C" bool setup_dx_hook();
+void Patch_win_input_associate(void) {
+    setup_dx_hook();
+    Orig_win_input_associate();
+};
 
 int32_t Patch_lua_EULAAccepted(void* L) {
     printf("CALL Patch_lua_EULAAccepted\n");
@@ -62,7 +73,6 @@ int32_t Patch_lua_EULAAccepted(void* L) {
     ext_btree_put(1000);
     printf("VAL = %d\n", ext_btree_get(900));
     printf("VAL = %d\n", ext_btree_get(1000));
-    setup_dx_hook();
 
     return Orig_lua_EULAAccepted(L);
 }
@@ -80,8 +90,8 @@ const wchar_t *path_base(const char* filename) {
 }
 
 int32_t Patch_SFile__OpenEx(void* archive, const char* filename, uint32_t flags, void** file) {
-    const wchar_t *base = path_base(filename);
-    wprintf(L"CALL Patch_SFile__OpenEx [file](%S)\n", base);
+    // const wchar_t *base = path_base(filename);
+    // wprintf(L"CALL Patch_SFile__OpenEx [file](%S)\n", base);
     return Orig_SFile__OpenEx(archive, filename, flags, file);
 }
 

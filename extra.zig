@@ -21,15 +21,18 @@ pub export fn ext_btree_deinit() callconv(.C) void {
 
 pub const thread_func = ?*const fn () callconv(.C) void;
 pub var zig_thread_func: thread_func = undefined;
+pub var zig_thread_mutex = std.Thread.Mutex{};
 fn zig_routine() void {
     zig_thread_func.?();
 }
 
 pub export fn zig_start_routine(f: thread_func) callconv(.C) void {
     print("Starting Zig thread...\n", .{});
+    zig_thread_mutex.lock();
     zig_thread_func = f;
     const thread = std.Thread.spawn(.{}, zig_routine, .{}) catch unreachable;
     thread.detach();
+    zig_thread_mutex.unlock();
 }
 
 // std.time.sleep(30 * std.time.ns_per_s);

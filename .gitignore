@@ -6,4 +6,7 @@ zig-out/
 
 *.dll
 *.exp
+*.a
+
 extra.h
+lib/libwow.h
