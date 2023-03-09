@@ -1,5 +1,5 @@
 # wow-lib
-A dynamic World of Warcraft 3.3.5 injection framework
+A dynamic World of Warcraft 3.3.5a injection framework
 
 ## Directories
 - `custom` a DLL that hooks and detours several functions in `Wow.exe`
