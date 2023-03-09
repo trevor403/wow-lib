@@ -39,9 +39,11 @@ pub fn build(b: *std.build.Builder) !void {
     exe.addCSourceFile("deps/minhook/src/hook.c", cflags);
 
     exe.addCSourceFile("custom/dll.c", cflags);
+    exe.addCSourceFile("custom/skip.c", cflags);
     exe.addCSourceFile("custom/hooks.c", cflags);
     exe.addCSourceFile("custom/patch.cpp", cxxflags);
     exe.addCSourceFile("custom/dx_patch.cpp", cxxflags);
+    exe.addCSourceFile("custom/globals.cpp", cxxflags);
 
     exe.linkLibC();
     exe.linkLibCpp();

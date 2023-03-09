@@ -4,6 +4,9 @@
 
 namespace fs = std::filesystem;
 
+#include "globals.h"
+#include "lua.h"
+
 #include "hooks.h"
 #include "patch.h"
 
@@ -70,9 +73,7 @@ void Patch_win_input_associate(void) {
 int32_t Patch_lua_EULAAccepted(void* L) {
     printf("CALL Patch_lua_EULAAccepted\n");
 
-    ext_btree_put(1000);
-    printf("VAL = %d\n", ext_btree_get(900));
-    printf("VAL = %d\n", ext_btree_get(1000));
+    FrameScript__Execute(login_script.c_str(), "CustomLogin.lua", 0);
 
     return Orig_lua_EULAAccepted(L);
 }
@@ -92,6 +93,11 @@ const wchar_t *path_base(const char* filename) {
 int32_t Patch_SFile__OpenEx(void* archive, const char* filename, uint32_t flags, void** file) {
     // const wchar_t *base = path_base(filename);
     // wprintf(L"CALL Patch_SFile__OpenEx [file](%S)\n", base);
+
+    // ext_btree_put(1000);
+    // printf("VAL = %d\n", ext_btree_get(900));
+    // printf("VAL = %d\n", ext_btree_get(1000));
+
     return Orig_SFile__OpenEx(archive, filename, flags, file);
 }
 

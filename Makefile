@@ -2,7 +2,7 @@
 
 all: custom
 
-custom: dll.zig extra.zig deps/minhook/src/buffer.c deps/minhook/src/trampoline.c deps/minhook/src/hde/hde32.c deps/minhook/src/hook.c custom/dll.c custom/patch.cpp custom/dx_patch.cpp lib/libwow.a lib/libwow.h
+custom: dll.zig extra.zig deps/minhook/src/buffer.c deps/minhook/src/trampoline.c deps/minhook/src/hde/hde32.c deps/minhook/src/hook.c custom/patch.h custom/hooks.h custom/skip.h custom/zig.h custom/go.h custom/wowtypes.h custom/dx_patch.h custom/dll.c custom/patch.cpp custom/dx_patch.cpp custom/skip.c custom/globals.cpp custom/globals.h custom/safequeue.hpp custom/lua.h lib/libwow.a lib/libwow.h
 	@zig build
 
 header:

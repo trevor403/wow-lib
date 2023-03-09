@@ -40,34 +40,24 @@ bool setup_dx_hook() {
     _is_dx_hook_installed = TRUE;
 
     uint32_t endScenePointer = 0;
-    uint32_t resetPointer = 0;
+    // uint32_t resetPointer = 0;
 
 	uint32_t ptr = 0;
-	do {
-		ptr = *(uint32_t*)0x00C5DF88;
-	} while (ptr == 0);
+
+    // Device
+    ptr = *(uint32_t*)0x00C5DF88;
+	ptr = *(uint32_t*)(ptr + 0x397C);
+
+    // Scene
+	ptr = *(uint32_t*)ptr;
+
+    // EndScene
+    endScenePointer = *(uint32_t*)(ptr + 0xA8);   //42 * 4
+    // resetPointer = *(uint32_t*)(ptr + 0x40);   //16 * 4
+
     printf("dx_device = 0x%08x\n", ptr);
-
-	do {
-		ptr = *(uint32_t*)(ptr + 0x397C);
-	}while (ptr == 0);
     printf("scene_ptr = 0x%08x\n", ptr);
-
-	// Scene	
-	do {
-		ptr = *(uint32_t*)ptr;
-	} while (ptr == 0);
     printf("scene = 0x%08x\n", ptr);
-
-	do {
-		endScenePointer = *(uint32_t*)(ptr + 0xA8);   //42 * 4
-        
-	} while (endScenePointer == 0);
-
-	do {
-		resetPointer = *(uint32_t*)(ptr + 0x40);   //16 * 4
-	} while (resetPointer == 0);
-
     printf("endScenePointer = 0x%08x\n", endScenePointer);
 
     const void* FP_DirectX9_endScene = (void*)endScenePointer;
