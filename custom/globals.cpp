@@ -40,9 +40,6 @@ void setup_globals() {
         std::mbstowcs(&path[0], programDir, size);
     }
 
-    // auto path = std::filesystem::current_path();
-    // wprintf(L"CWD = %S\n", path.c_str());
-
     auto filepath = fs::path(path) / L"Custom" / L"login.lua";
     if (fs::exists(filepath)) {
 

@@ -14,7 +14,7 @@ void *PTR_Patch_DirectX9__EndScene = (void*)&Patch_DirectX9__EndScene;
 
 // main thread
 __cdecl void Callback_EndScene() {
-    if (!lua_queue.empty()) {
+    while (!lua_queue.empty()) {
         auto script = lua_queue.dequeue();
         FrameScript__Execute(script.c_str(), "exec.lua", 0);
     }

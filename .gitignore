@@ -1,5 +1,6 @@
 .vscode/
 old/
+upload/
 
 zig-cache/
 zig-out/
@@ -10,3 +11,5 @@ zig-out/
 
 extra.h
 lib/libwow.h
+
+notes.txt

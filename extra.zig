@@ -35,7 +35,6 @@ pub export fn zig_start_routine(f: thread_func) callconv(.C) void {
     zig_thread_mutex.unlock();
 }
 
-// std.time.sleep(30 * std.time.ns_per_s);
-
-// std.debug.print("About to call exit()\n", .{});
-// std.os.exit(1);
+pub export fn zig_sleep_msec(ms: u32) callconv(.C) void {
+    std.time.sleep(ms * std.time.ns_per_ms);
+}

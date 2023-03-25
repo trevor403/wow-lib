@@ -76,7 +76,7 @@ bool check_patched() {
     PIMAGE_DOS_HEADER pDosHeader = (PIMAGE_DOS_HEADER)pe;
     PIMAGE_NT_HEADERS pNtHeader = (PIMAGE_NT_HEADERS)((uint8_t*)pe + pDosHeader->e_lfanew);
     PIMAGE_FILE_HEADER pFileHeader = &pNtHeader->FileHeader;
-    pFileHeader->Characteristics |= 0x0020; // IMAGE_FILE_LARGE_ADDRESS_AWARE
+    pFileHeader->Characteristics |= IMAGE_FILE_LARGE_ADDRESS_AWARE;
     // printf("AFTER Characteristics: %04x\n", pFileHeader->Characteristics);
 
     fwrite(buf, 1, sizeof(buf), targetFile);

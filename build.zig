@@ -44,6 +44,7 @@ pub fn build(b: *std.build.Builder) !void {
     exe.addCSourceFile("custom/patch.cpp", cxxflags);
     exe.addCSourceFile("custom/dx_patch.cpp", cxxflags);
     exe.addCSourceFile("custom/globals.cpp", cxxflags);
+    exe.addCSourceFile("custom/lua.cpp", cxxflags);
 
     exe.linkLibC();
     exe.linkLibCpp();

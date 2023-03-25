@@ -14,7 +14,7 @@ HINSTANCE customDLL;
 
 // Export symbol as DirectInput8Create and proxy to the real DirectInput8Create
 HRESULT WINAPI DirectInput8Create(HINSTANCE hinst, DWORD dwVersion, REFIID riidltf, LPVOID *ppvOut, LPUNKNOWN punkOuter) {
-    printf("Call DirectInput8Create\n");
+    printf("CALL DirectInput8Create\n");
     return ((T_DINPUT8_DirectInput8Create)originalSymbol)(hinst, dwVersion, riidltf, ppvOut, punkOuter);
 }
 

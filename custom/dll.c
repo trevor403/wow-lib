@@ -33,6 +33,7 @@ static bool process_attach() {
     zig_start_routine(go_setup); // new stack
 
     setup_globals();
+    // setup_patches(); for reloc instructions
 
     if (!setup_hooks()) return FALSE;
     return TRUE;
